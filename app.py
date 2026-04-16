@@ -9,19 +9,25 @@ def parse(text):
     
     side = "Left" if "left" in text else "Right"
     
+    vessel_map = {
+        "sfa": "Superficial Femoral Artery",
+        "femoral": "Superficial Femoral Artery",
+        "popliteal": "Popliteal Artery",
+        "ata": "Anterior Tibial Artery",
+        "pta": "Posterior Tibial Artery",
+        "peroneal": "Peroneal Artery"
+    }
+    
     vessel = None
-    if "sfa" in text:
-        vessel = "Superficial Femoral Artery"
-    elif "popliteal" in text:
-        vessel = "Popliteal Artery"
+    for key in vessel_map:
+        if key in text:
+            vessel = vessel_map[key]
+    
+    if vessel is None:
+        vessel = "Unspecified Vessel"
     
     segment = "Proximal" if "proximal" in text else "Distal"
     
     pathology = "Stenosis" if "stenosis" in text else "Occlusion"
     
     return side, vessel, segment, pathology
-
-if text:
-    side, vessel, segment, pathology = parse(text)
-    
-    st.success(f"{side} {vessel} ({segment}): {pathology}")
